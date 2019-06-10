@@ -74,8 +74,8 @@ refine %>%
   separate('Product code / number', (c('product_code', 'product_number')))
 
 ```
- 
- Add Column with Product Categories
+
+ Add Column with Product Categories based on the "product_code" variable I have just created. Error shows "product-code" not found.
 
 
 ```{r}
