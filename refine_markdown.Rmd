@@ -9,7 +9,7 @@ library(tidyverse)
 ```
 
 
-Clean up company names column so they are all identical and lower case:
+Clean up company names column so they are all identical and lower case(Is there a faster way to do this?):
 
 ```{r}
 
@@ -75,7 +75,7 @@ refine %>%
 
 ```
 
- Add Column with Product Categories based on the "product_code" variable I have just created. Error shows "product-code" not found.
+ Add Column with Product Categories based on the "product_code" variable I have just created. But when I try anything with product_code, an error shows: "product-code" not found.
 
 
 ```{r}
