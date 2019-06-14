@@ -1,0 +1,128 @@
+
+Max Davis
+Intro to Data Science
+June 12, 2019
+
+Project: Data Wrangling Exercise 1: Basic Data Manipulation
+
+Load packages:
+
+```{r}
+library(plyr)
+library(dplyr)
+library(tidyr)
+library(tidyverse)
+
+```
+
+Clean up company names column so they are all identical and lower case:
+
+```{r}
+
+refine$company <- revalue(refine$company, c(
+"phillipS" = "philips"))
+
+refine$company <- revalue(refine$company, c(
+"Phillips" = "philips"))
+
+refine$company <- revalue(refine$company, c(
+"phillips" = "philips"))
+
+refine$company <- revalue(refine$company, c(
+"phllips" = "philips"))
+
+refine$company <- revalue(refine$company, c(
+"phillps" = "philips"))
+
+refine$company <- revalue(refine$company, c(
+"fillips" = "philips"))
+
+refine$company <- revalue(refine$company, c(
+"phlips" = "philips"))
+
+refine$company <- revalue(refine$company, c(
+"Akzo" = "akzo"))
+
+refine$company <- revalue(refine$company, c(
+"AKZO" = "akzo"))
+
+refine$company <- revalue(refine$company, c(
+"akz0" = "akzo"))
+
+refine$company <- revalue(refine$company, c(
+"ak zo" = "akzo"))
+
+refine$company <- revalue(refine$company, c(
+"Van Houten" = "van houten"))
+
+refine$company <- revalue(refine$company, c(
+"van Houten" = "van houten"))
+
+refine$company <- revalue(refine$company, c(
+"unilver" = "unilever"))
+
+refine$company <- revalue(refine$company, c(
+"Unilever" = "unilever"))
+
+```
+
+Separate product number into two colums:
+
+
+```{r}
+
+refine <- refine %>%
+  separate('Product.code...number', (c('product_code', 'product_number')))
+
+
+```
+ 
+ Add column with product categories:
+
+
+```{r}
+
+refine <- refine %>%
+  mutate(product_category = refine$product_code)
+
+refine$product_category <- revalue(refine$product_category, c(
+"p" = "Smartphone"))
+
+refine$product_category <- revalue(refine$product_category, c(
+"x" = "Laptop"))
+
+refine$product_category <- revalue(refine$product_category, c(
+"v" = "TV"))
+
+refine$product_category <- revalue(refine$product_category, c(
+"q" = "Tablet"))
+
+```
+
+Unite addresses into one column:
+
+```{r}
+refine <- refine%>%
+  unite(full_address, address, city, country, sep = ", ")
+```
+
+Create dummy columns for company names and product categories:
+
+```{r}
+
+refine$company_phillips <- as.numeric(refine$company == "philips")
+refine$company_akzo <- as.numeric(refine$company == "akzo")
+refine$company_van_houten <- as.numeric(refine$company == "van houten")
+refine$company_unilever <- as.numeric(refine$company == "unilever")
+
+
+refine$product_smartphone <- as.numeric(refine$product_category == "Smartphone")
+refine$product_laptop <- as.numeric(refine$product_category == "Laptop")
+refine$product_tv <- as.numeric(refine$product_category == "TV")
+refine$product_tablet <- as.numeric(refine$product_category == "Tablet")
+
+```
+
+
+
+
