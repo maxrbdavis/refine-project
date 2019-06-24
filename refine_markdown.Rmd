@@ -1,68 +1,51 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
 
 Max Davis
 Intro to Data Science
 June 12, 2019
+
+Updated June 23 to only use dplyr and tidyr:
 
 Project: Data Wrangling Exercise 1: Basic Data Manipulation
 
 Load packages:
 
 ```{r}
-library(plyr)
+
 library(dplyr)
 library(tidyr)
-library(tidyverse)
+
 
 ```
 
 Clean up company names column so they are all identical and lower case:
+```{r}
+refine <- tbl_df(refine_original)
+
+```
+
+```{r}
+refine <- 
+  refine %>%
+  mutate(company = tolower(company))
+
+
+
+```
 
 ```{r}
 
-refine$company <- revalue(refine$company, c(
-"phillipS" = "philips"))
+  refine <- refine %>%
+  mutate(company = gsub("^(phillips|phillps|phllips|phlips|fillips)", "philips", company)) %>%
+  mutate(company = 
+           gsub("^(akz0|ak zo)", "akzo", company)) %>%
+  mutate(company = 
+           gsub("^(unilver)", "unilever", company))
 
-refine$company <- revalue(refine$company, c(
-"Phillips" = "philips"))
-
-refine$company <- revalue(refine$company, c(
-"phillips" = "philips"))
-
-refine$company <- revalue(refine$company, c(
-"phllips" = "philips"))
-
-refine$company <- revalue(refine$company, c(
-"phillps" = "philips"))
-
-refine$company <- revalue(refine$company, c(
-"fillips" = "philips"))
-
-refine$company <- revalue(refine$company, c(
-"phlips" = "philips"))
-
-refine$company <- revalue(refine$company, c(
-"Akzo" = "akzo"))
-
-refine$company <- revalue(refine$company, c(
-"AKZO" = "akzo"))
-
-refine$company <- revalue(refine$company, c(
-"akz0" = "akzo"))
-
-refine$company <- revalue(refine$company, c(
-"ak zo" = "akzo"))
-
-refine$company <- revalue(refine$company, c(
-"Van Houten" = "van houten"))
-
-refine$company <- revalue(refine$company, c(
-"van Houten" = "van houten"))
-
-refine$company <- revalue(refine$company, c(
-"unilver" = "unilever"))
-
-refine$company <- revalue(refine$company, c(
-"Unilever" = "unilever"))
 
 ```
 
@@ -72,7 +55,7 @@ Separate product number into two colums:
 ```{r}
 
 refine <- refine %>%
-  separate('Product.code...number', (c('product_code', 'product_number')))
+  separate('Product code / number', (c('product_code', 'product_number')))
 
 
 ```
@@ -83,20 +66,19 @@ refine <- refine %>%
 ```{r}
 
 refine <- refine %>%
-  mutate(product_category = refine$product_code)
+  mutate(product_category = refine$product_code) 
+```
 
-refine$product_category <- revalue(refine$product_category, c(
-"p" = "Smartphone"))
-
-refine$product_category <- revalue(refine$product_category, c(
-"x" = "Laptop"))
-
-refine$product_category <- revalue(refine$product_category, c(
-"v" = "TV"))
-
-refine$product_category <- revalue(refine$product_category, c(
-"q" = "Tablet"))
-
+```{r}
+refine <- refine %>%
+            mutate(product_category = gsub("p", "Smartphone", product_category)) %>%
+    
+            mutate(product_category = gsub("x", "Laptop", product_category)) %>%
+      
+            mutate(product_category = gsub("v", "TV", product_category)) %>%
+       
+            mutate(product_category = gsub("q", "Tablet", product_category))
+  
 ```
 
 Unite addresses into one column:
